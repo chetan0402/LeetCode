@@ -36,3 +36,39 @@ public:
         return true;
     }
 };
+
+vector<bool> isPrime;
+
+class SolutionSieve {
+public:
+    vector<int> closestPrimes(int left, int right) {
+        if(isPrime.size()==0){
+            isPrime.assign(1000000+1,true);
+            isPrime[0]=isPrime[1]=false;
+            for(int i=2;i*i<=1000000;i++){
+                if(isPrime[i]==false) continue;
+                for(int j=i*i;j<=1000000;j+=i) isPrime[j]=false;
+            }
+        }
+        vector<int> primes;
+        for(int i=left;i<=right;i++){
+            if(isPrime[i]){
+                primes.push_back(i);
+            }
+        }
+        if (primes.size()<2) return vector<int>(2,-1);
+        else{
+            int diff=INT_MAX;
+            int num1=-1;
+            int num2=-1;
+            for(int i=0;i<primes.size()-1;i++){
+                if(primes[i+1]-primes[i] < diff){
+                    diff=primes[i+1]-primes[i];
+                    num1=primes[i];
+                    num2=primes[i+1];
+                }
+            }
+            return vector<int>{num1,num2};
+        }
+    }
+};
