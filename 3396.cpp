@@ -1,5 +1,6 @@
 #include<vector>
 #include<unordered_map>
+#include<cmath>
 using namespace std;
 
 class Solution {
@@ -18,5 +19,18 @@ class Solution {
                 steps++;
             }
             return steps;
+        }
+    };
+
+class SolutionOptimal {
+    public:
+        int minimumOperations(vector<int>& nums) {
+            auto n=nums.size();
+            vector<bool> exist(101,false);
+            for(int i=n-1;i>=0;i--){
+                if(exist[nums[i]]) return ceil(1.0*(i+1)/3);
+                exist[nums[i]]=true;
+            }
+            return 0;
         }
     };
