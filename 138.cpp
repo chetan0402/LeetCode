@@ -1,22 +1,41 @@
-#include<vector>
+#include<unordered_map>
 using namespace std;
+
+class Node {
+public:
+    int val;
+    Node* next;
+    Node* random;
+    
+    Node(int _val) {
+        val = _val;
+        next = NULL;
+        random = NULL;
+    }
+};
 
 class Solution {
     public:
-        int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
-            auto n=gas.size();
-            int start=0;
-            int total=0;
-            int cur=0;
-            for(int i=0;i<n;i++){
-                total+=gas[i]-cost[i];
-                cur+=gas[i]-cost[i];
-                if(cur<0){
-                    cur=0;
-                    start=i+1;
-                }
+        Node* copyRandomList(Node* head) {
+            unordered_map<Node*,Node*> translate;
+            translate[nullptr]=nullptr;
+            Node*newHead=new Node(0);
+            Node*curNew=newHead;
+            Node*curOld=head;
+            while(curOld!=nullptr){
+                curNew->next=new Node(curOld->val);
+                translate[curOld]=curNew->next;
+                curOld=curOld->next;
+                curNew=curNew->next;
             }
-            if(total>=0) return start;
-            return -1;
+            newHead=newHead->next;
+            curOld=head;
+            curNew=newHead;
+            while(curOld!=nullptr){
+                curNew->random=translate[curOld->random];
+                curOld=curOld->next;
+                curNew=curNew->next;
+            }
+            return newHead;
         }
     };
