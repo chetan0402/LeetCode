@@ -26,3 +26,24 @@ public:
         return result;
     }
 };
+
+class Solution2ndTry {
+    long long lessThanEq(vector<int>&nums,int limit){
+        int left=0;
+        int right=nums.size()-1;
+        auto ans=0LL;
+        while(left<right){
+            if(nums[left]+nums[right]>limit) right--;
+            else{
+                ans+=(right-left);
+                left++;
+            }
+        }
+        return ans;
+    }
+public:
+    long long countFairPairs(vector<int>& nums, int lower, int upper) {
+        sort(nums.begin(),nums.end());
+        return lessThanEq(nums,upper)-lessThanEq(nums,lower-1);
+    }
+};
