@@ -1,5 +1,6 @@
 #include<unordered_map>
 #include<vector>
+#include<cmath>
 using namespace std;
 
 class Solution {
@@ -16,3 +17,20 @@ class Solution {
             return ans;
         }
     };
+
+class Solution {
+public:
+    int numRabbits(vector<int>& answers) {
+        unordered_map<int,int> freq;
+        for(auto num:answers) freq[num]++;
+
+        int ans=0;
+
+        for(auto [key, value]:freq){
+            if(key>value) ans+=(key+1);
+            else ans+=ceil(1.0*value/(key+1))*(key+1);
+        }
+
+        return ans;
+    }
+};
