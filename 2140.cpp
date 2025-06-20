@@ -18,3 +18,23 @@ class Solution {
             return maxPoints;
         }
     };
+
+class SolutionTry2 {
+public:
+    long long mostPoints(vector<vector<int>>& questions) {
+        int n=questions.size();
+        
+        vector<long long> dp(n+1);
+        dp[n]=0;
+
+        for(int i=n-1;i>=0;i--){
+            long long point=questions[i][0];
+            long long brainpower=questions[i][1];
+            dp[i]=dp[i+1];
+            if(i+brainpower+1<n) dp[i]=max(dp[i],point+dp[i+brainpower+1]);
+            else dp[i]=max(dp[i],point);
+        }
+
+        return dp[0];
+    }
+};
