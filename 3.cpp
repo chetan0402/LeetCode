@@ -26,3 +26,26 @@ class Solution {
             return ans;
         }
     };
+
+class SolutionTry2 {
+public:
+    int lengthOfLongestSubstring(string s) {
+        int n=s.size();
+        vector<int> freq(128,0);
+        int left=0;
+        int ans=0;
+
+        for(int right=0;right<n;right++){
+            char toAdd=s[right];
+            while(freq[toAdd]==1){
+                char toRemove=s[left];
+                freq[toRemove]--;
+                left++;
+            }
+            freq[toAdd]++;
+            ans=max(ans,right-left+1);
+        }
+
+        return ans;
+    }
+};

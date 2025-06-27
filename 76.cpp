@@ -31,3 +31,45 @@ class Solution {
             return len==INT_MAX ? "" : s.substr(start,len);
         }
     };
+
+
+class SolutionTry2 {
+public:
+    string minWindow(string s, string t) {
+        int n=s.size();
+        int m=t.size();
+        if(m>n) return "";
+
+        vector<int> target(128,0);
+        for(auto c:t) target[c]++;
+        vector<int> freq(128,0);
+
+        auto valid=[&]()->bool{
+            for(char chr='a';chr<='z';chr++){
+                if(target[chr]>freq[chr]) return false;
+            }
+            for(char chr='A';chr<='Z';chr++){
+                if(target[chr]>freq[chr]) return false;
+            }
+            return true;
+        };
+
+        int left=0;
+        int ansStart=0;
+        int ansLen=INT_MAX;
+        for(int right=0;right<n;right++){
+            freq[s[right]]++;
+            while(valid() && left<n){
+                int curLen=right-left+1;
+                if(curLen<ansLen){
+                    ansStart=left;
+                    ansLen=curLen;
+                }
+                freq[s[left]]--;
+                left++;
+            }
+        }
+
+        return (ansLen==INT_MAX)?"":s.substr(ansStart,ansLen);
+    }
+};
