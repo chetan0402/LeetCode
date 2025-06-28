@@ -31,3 +31,30 @@ public:
         return build(preorder,0,preorder.size()-1,inorder,0,inorder.size()-1,inToI);
     }
 };
+
+class SolutionTry2 {
+    vector<int> preorder;
+    vector<int> inorder;
+    int inRoot=0;
+    TreeNode*build(int start,int end){
+        if(start>end) return nullptr;
+        auto root=new TreeNode(preorder[inRoot]);
+        inRoot++;
+        if(start==end) return root;
+        int index;
+        for(int i=start;i<=end;i++) if(inorder[i]==root->val){
+            index=i;
+            break;
+        }
+        root->left=build(start,index-1);
+        root->right=build(index+1,end);
+        return root;
+    }
+public:
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        this->preorder=preorder;
+        this->inorder=inorder;
+        this->inRoot=0;
+        return build(0,preorder.size()-1);
+    }
+};
