@@ -41,3 +41,39 @@ public:
         return maxRoom;
     }
 };
+
+class Solution2 {
+public:
+    int mostBooked(int n, vector<vector<int>>& meetings) {
+        sort(meetings.begin(),meetings.end());
+        vector<int> cnt(n,0);
+
+        priority_queue<int,vector<int>,greater<>> avaliable;
+        priority_queue<pair<long long,int>,vector<pair<long long,int>>,greater<>> busy;
+        for(int i=0;i<n;i++) busy.push({0,i});
+
+        for(auto&m:meetings){
+            while(busy.size() && busy.top().first<=m[0]){
+                auto [_, room]=busy.top();busy.pop();
+                avaliable.push(room);
+            }
+            int room;
+            long long endtime;
+            if(avaliable.size()){
+                room=avaliable.top();
+                avaliable.pop();
+                endtime=m[1];
+            }else{
+                auto [time, _room]=busy.top();busy.pop();
+                room=_room;
+                endtime=time+m[1]-m[0];
+            }
+            cnt[room]++;
+            busy.push({endtime,room});
+        }
+
+        int room=0;
+        for(int i=1;i<n;i++) if(cnt[i]>cnt[room]) room=i;
+        return room;
+    }
+};
