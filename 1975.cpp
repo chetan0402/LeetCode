@@ -23,3 +23,21 @@ public:
         return sum;
     }
 };
+
+class Solution2 {
+public:
+    long long maxMatrixSum(vector<vector<int>>& matrix) {
+        int neg=0;
+        int minE=INT_MAX;
+        bool zero=false;
+        long long sum=0;
+        for(auto&m:matrix) for(auto num:m){
+            if(num==0) zero=true;
+            if(num<0) neg++;
+            minE=min(minE,abs(num));
+            sum+=abs(num);
+        }
+        if(zero || neg%2==0) return sum;
+        return sum-2*minE;
+    }
+};
