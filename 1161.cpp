@@ -41,3 +41,25 @@ public:
         return maxLvl+1;
     }
 };
+
+class Solution2 {
+public:
+    int maxLevelSum(TreeNode* root) {
+        vector<int> lsum;
+
+        auto dfs=[&](auto&self,TreeNode*node,int l)->void{
+            if(node==nullptr) return;
+            if(l==lsum.size()) lsum.push_back(node->val);
+            else lsum[l]+=node->val;
+
+            self(self,node->left,l+1);
+            self(self,node->right,l+1);
+        };
+
+        dfs(dfs,root,0);
+
+        int ansI=0;
+        for(int i=1;i<lsum.size();i++) if(lsum[i]>lsum[ansI]) ansI=i;
+        return ansI+1;
+    }
+};
